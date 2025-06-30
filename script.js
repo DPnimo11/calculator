@@ -45,7 +45,7 @@ function backspace() {
 }
 
 function operate(e) {
-    if (num2 != "") {
+    if (num2 != "" && num2 != ".") {
         if (op === "+") {
             num1 = +num1 + +num2;
         } else if (op === "-") {
@@ -62,10 +62,9 @@ function operate(e) {
                 num1 = num1 / num2;
             }
         }
-        console.log("WTF");
-        console.log(num1, num1 != "");
+
         if (num1 === 0 || num1 != "") {
-            num1 = Math.round(num1 * 1000) / 1000;
+            num1 = Math.round(num1 * 100000) / 100000;
             if (num1 >= 10000000000000) {
                 num1 = num1.toExponential(5);
             } else {
@@ -85,6 +84,18 @@ function transfer(bruh) {
     if (bruh === "*") return "×";
     if (bruh === "/") return "÷";
     return bruh;
+}
+
+function addDecimal () {
+    if (num1_isCalculated && op === "") {
+        num1_isCalculated = false;
+        num1 = "";
+    }
+    if (op === "" && !num1.includes(".")) {
+        num1 += decimal.textContent;
+    } else if (op != "" && !num2.includes(".")) {
+        num2 += decimal.textContent;
+    }
 }
 
 calc.addEventListener("click", () => updateScreen());
@@ -119,7 +130,7 @@ arith.forEach((n) => n.addEventListener("click", () => {
     if (num2 != "") {
         equal.click();
         op = n.textContent;
-    } else {
+    } else if (num1 != "" && num1 != "."){
         op = n.textContent;
         screenText.textContent = "";
     }
@@ -130,17 +141,7 @@ const err = document.querySelector("#error");
 equal.addEventListener("click", (e) => operate(e));
 
 const decimal = document.querySelector("#decimal");
-decimal.addEventListener("click", () => {
-    if (num1_isCalculated && op === "") {
-        num1_isCalculated = false;
-        num1 = "";
-    }
-    if (op === "" && !num1.includes(".")) {
-        num1 += decimal.textContent;
-    } else if (op != "" && !num2.includes(".")) {
-        num2 += decimal.textContent;
-    }
-})
+decimal.addEventListener("click", () => addDecimal());
 
 document.addEventListener('keydown', (e) => {
     if (!Number.isNaN(+ e.key)) {
@@ -157,15 +158,17 @@ document.addEventListener('keydown', (e) => {
         if (num2 != "") {
             equal.click();
             op = e.key;
-        } else {
+        } else if (num1 != "" && num1 != "."){
             op = e.key;
             screenText.textContent = "";
         }
         op = transfer(op);
     } else if (e.key === "=") {
         operate(e);
-    } else if (e.key === "+") {
+    } else if (e.key === "Backspace") {
         backspace();
+    } else if (e.key === ".") {
+        addDecimal();
     }
     updateScreen();
 })
