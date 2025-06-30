@@ -11,9 +11,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Quicksand:wght@300..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div id="error"></div>
     <div id="wrapper">
         <div id="screen">
-            <div id="text">1234</div>
+            <div id="context">0</div>
+            <div id="text"></div>
         </div>
         <div id="buttons">
             <div id="row1" class="row">
@@ -25,25 +27,25 @@
                 <button class="num">7</button>
                 <button class="num">8</button>
                 <button class="num">9</button>
-                <button class="op">÷</button>
+                <button class="op arith">÷</button>
             </div>
             <div id="row3" class="row">
                 <button class="num">4</button>
                 <button class="num">5</button>
                 <button class="num">6</button>
-                <button class="op">×</button>
+                <button class="op arith">×</button>
             </div>
             <div id="row4" class="row">
                 <button class="num">3</button>
                 <button class="num">2</button>
                 <button class="num">1</button>
-                <button class="op">-</button>
+                <button class="op arith">-</button>
             </div>
             <div id="row5" class="row">
                 <button class="num">0</button>
-                <button class="num">.</button>
-                <button class="op">=</button>
-                <button class="op">+</button>
+                <button id="decimal">.</button>
+                <button id="equal" class="op">=</button>
+                <button class="op arith">+</button>
             </div>
         </div>
     </div>
