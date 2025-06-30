@@ -34,6 +34,7 @@ function updateScreen() {
 }
 
 function backspace() {
+    num1_isCalculated = false;
     if (num2 != "") {
         num2 = num2.slice(0, -1);
     } else if (op != ""){
@@ -49,7 +50,7 @@ function operate(e) {
             num1 = +num1 + +num2;
         } else if (op === "-") {
             num1 = num1 - num2;
-        } else if (op === "×" || op === "*") {
+        } else if (op === "×") {
             num1 = num1 * num2;
         } else {
             if (+num2 === 0) {
@@ -61,7 +62,9 @@ function operate(e) {
                 num1 = num1 / num2;
             }
         }
-        if (num1 != "") {
+        console.log("WTF");
+        console.log(num1, num1 != "");
+        if (num1 === 0 || num1 != "") {
             num1 = Math.round(num1 * 1000) / 1000;
             if (num1 >= 10000000000000) {
                 num1 = num1.toExponential(5);
@@ -73,7 +76,7 @@ function operate(e) {
             screenText.textContent = num1;
             num2 = "";
             op = "";
-            e.stopPropagation();
+            e.stopImmediatePropagation();
         }
     }
 }
@@ -112,6 +115,7 @@ nums.forEach((n) => n.addEventListener("click", () => {
 
 const arith = document.querySelectorAll(".arith");
 arith.forEach((n) => n.addEventListener("click", () => {
+    num1_isCalculated = false;
     if (num2 != "") {
         equal.click();
         op = n.textContent;
@@ -127,6 +131,10 @@ equal.addEventListener("click", (e) => operate(e));
 
 const decimal = document.querySelector("#decimal");
 decimal.addEventListener("click", () => {
+    if (num1_isCalculated && op === "") {
+        num1_isCalculated = false;
+        num1 = "";
+    }
     if (op === "" && !num1.includes(".")) {
         num1 += decimal.textContent;
     } else if (op != "" && !num2.includes(".")) {
